@@ -1,0 +1,13 @@
+.contents {
+    width: 1200px;
+    margin: 16px auto;
+    display: flex;
+}
+
+.contents > * {
+    padding: 3px;
+}
+
+.main {
+    width: 100%;
+}

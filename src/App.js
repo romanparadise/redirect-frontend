@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import PassPhrase from 'PassPhrase'
+import { fetchLinksData, addLink } from 'requests'
+import Core from 'core'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  const [ userIsVerified, setUserIsVerified ] = useState(false)
+  const [ links, setLinks] = useState()
+  const { isLoading } = useQuery(
+    ['links'],
+    async () => {
+      const { data } = await fetchLinksData();
+      setLinks(data)
+    },
+    {
+      refetchInterval: 600000,
+    }
   );
+
+  if (!userIsVerified) {
+    return (
+      <PassPhrase
+        verifyUser = {() => setUserIsVerified(true)}
+      />
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <div style={{color: 'white'}}>Loading data...</div>
+    )
+  }
+
+  return <Core 
+    linksData={links}
+  />
 }
 
 export default App;

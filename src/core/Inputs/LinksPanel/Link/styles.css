@@ -1,0 +1,31 @@
+.link {
+    color: #FFF;
+    display: flex;
+    border-radius: 3px;
+    border: 1px solid #b0f;
+    width: fit-content;
+    font-family: sans-serif;
+}
+
+.link > * {
+    padding: 2px;
+}
+
+.link > .link-name {
+    width: 100px;
+    background-color: blueviolet;
+}
+
+.link > .link-url {
+    width: 120px;
+}
+
+.link > .link-clicks {
+    width: 10px;
+    color: #b0f;
+}
+
+.link > .link-description {
+    width: 100px;
+    display: none;
+}
