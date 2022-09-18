@@ -1,14 +1,17 @@
 import Link from './Link'
 
-export default function LinksPanel({ linksData=[] }) {
-    console.log('panel', linksData)
+export default function LinksPanel({ linksData=[], selectedLinks, statsDatePeriod, onLinkClick }) {
     const linkElements = linksData.map(link => {
         return <Link
+            key={link._id}
             name={link.name}
             redirectsTo={link.redirectsTo}
             clicks={link.clicks}
             description={link.description}
             tags={link.tags}
+            selected={selectedLinks.map(l=>l._id).includes(link._id)}
+            statsDatePeriod={statsDatePeriod}
+            handleClick={() => onLinkClick(link)}
         />
     })
 

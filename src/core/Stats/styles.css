@@ -1,0 +1,17 @@
+.stats>input {
+    box-sizing: border-box;
+    margin: 8px 0px;
+    min-width: 0px;
+    display: block;
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    appearance: none;
+    border-radius: 9999px;
+    color: #AAA;
+    background-color: var(--theme-ui-colors-lightgray,#555);
+}
+
+.stats>input:focus {
+    color: #0ff;
+}

@@ -5,6 +5,13 @@
     border: 1px solid #b0f;
     width: fit-content;
     font-family: sans-serif;
+    margin: 4px;
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.link.selected {
+    opacity: 1;
 }
 
 .link > * {
@@ -13,19 +20,31 @@
 
 .link > .link-name {
     width: 100px;
-    background-color: blueviolet;
+    background-color: #b0f;
+    color: black;
 }
 
 .link > .link-url {
     width: 120px;
+    color: #AAA;
+    font-weight: 100;
 }
 
 .link > .link-clicks {
     width: 10px;
-    color: #b0f;
+    color: #FFF;
 }
 
 .link > .link-description {
     width: 100px;
     display: none;
+}
+
+.link-url {
+    /*color: #b0f;*/
+    color: #FFF;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    max-width: 120px; 
+    white-space: nowrap;
 }

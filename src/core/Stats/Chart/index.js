@@ -1,7 +1,10 @@
+import { useMemo, useState } from 'react';
 import { Line } from 'react-chartjs-2'
 import { Chart, registerables } from "chart.js";
+import Switch from '@mui/material/Switch';
+import './styles.css'
 
-function configureChart(data) {
+function configureChart(data, showUniqueChartColors) {
   const colors = [
     'rgb(75,192,192)', 
     'rgb(116, 39, 116)', 
@@ -35,6 +38,10 @@ function configureChart(data) {
       return values.filter(v => v > interval.from && v <= interval.to).length
     })
   }
+  function shadeHexColor(color, percent) {
+    var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
+    return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+  }
 
   const discretizeInterval = 60 * 60 * 1000
   const period = 24 * 60 * 60 * 1000
@@ -62,29 +69,54 @@ function configureChart(data) {
 
   const labelsStrings = labels.map(l => `${l.getHours()}:${l.getMinutes()}`)
 
+  let defaultColorToUseInd = 0
+  //const usedCustomColors = new Set()
+
   return {
     labels: labelsStrings,
     datasets: data.map((linkData, ind) => {
+      let color = null
+      if (showUniqueChartColors) {
+        color = colors[ind % colors.length]
+      } else {
+        color = linkData.tags.find(t => t.startsWith('#')) 
+        if (color) {
+          // if (usedCustomColors.has(color)) {
+          //   color = shadeHexColor(color, (Math.random() - 0.5)*1.5)
+          // } else {
+          //   usedCustomColors.add(color)
+          // }
+        } else {
+          color = colors[defaultColorToUseInd]
+          defaultColorToUseInd = (defaultColorToUseInd + 1) % colors.length
+        }
+      }
+
       return {
         label: linkData.name,
         data: discretize(linkData.clicks, intervals),
         fill: false,
-        borderColor: colors[ind % colors.length],
+        borderColor: color,
       }
     }),
   };
 }
 
-
 export default function({ data }) {
+  const [ showUniqueChartColors, setShowUniqueChartColors] = useState(false)
+  const memoizationDeps = [data.map(i => i.clicks).join(' '), showUniqueChartColors, new Date().getMinutes()]
+  const chartData = useMemo(() => {
+    return configureChart(data, showUniqueChartColors)
+  }, [...memoizationDeps])
+
   Chart.register(...registerables);
 
-  data[0].clicks = [1663371534718, 1663371654718, 1663371774718, 1663371894718, 1663372014718, 1663372134718, 1663375134718, 1663375254718, 1663375374718, 1663375494718, 1663375614718, 1663375734718, 1663378734718, 1663378854718, 1663378974718, 1663379094718, 1663379214718, 1663379334718, 1663382334718, 1663382454718, 1663382574718, 1663382694718, 1663382814718, 1663382934718, 1663385934718, 1663386054718, 1663386174718, 1663386294718, 1663386414718, 1663386534718, 1663389534718, 1663389654718, 1663389774718, 1663389894718, 1663390014718, 1663390134718, 1663393134718, 1663393254718, 1663393374718, 1663393494718, 1663393614718, 1663393734718, 1663396734718, 1663396854718, 1663396974718, 1663397094718, 1663397214718, 1663397334718, 1663400334718, 1663400454718, 1663400574718, 1663400694718, 1663400814718, 1663400934718, 1663403934718, 1663404054718, 1663404174718, 1663404294718, 1663404414718, 1663404534718]
+  if (!data?.length) return
 
   return (
     <div style={{ width: '100%' }}>
       <Line 
-        data={configureChart(data)}
+        data={chartData}
         options={{
           scales: {
             y: {
@@ -96,6 +128,10 @@ export default function({ data }) {
           },
         }}
       />
+      <div className='colors-switch'>
+        <Switch defaultChecked={showUniqueChartColors} onChange={e => setShowUniqueChartColors(e.target.checked)} />
+        <span>Сделать разные цвета для графиков</span>
+      </div>
     </div>
   )
 }

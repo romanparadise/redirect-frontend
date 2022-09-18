@@ -1,0 +1,20 @@
+.date-pickers input {
+    color: #555 !important;
+    width: 180px;
+}
+
+.date-pickers svg {
+    color: #555;
+}
+
+.MuiClockPicker-root {
+    background-color: #111;
+}
+
+.MuiClock-squareMask {
+    background-color: #FFF;
+}
+
+.MuiClock-pmButton, .MuiClock-amButton {
+    color: #FFF !important;
+}

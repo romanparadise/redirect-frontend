@@ -1,0 +1,10 @@
+.colors-switch {
+    color: #888;
+    font-weight: 100;
+    font-family: sans-serif;
+}
+
+.colors-switch>span:first-child>span:nth-child(2) {
+    background-color: #555;
+}
+
