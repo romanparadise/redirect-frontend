@@ -33,14 +33,17 @@ function configureChart(data, showUniqueChartColors) {
   
     return date;
   }
-  function discretize(values, intervals) {
-    return intervals.map(interval => {
-      return values.filter(v => v > interval.from && v <= interval.to).length
-    })
-  }
   function shadeHexColor(color, percent) {
     var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
     return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+  }
+  function discretize(values, intervals) {
+    console.log('discretizing values', values, intervals, intervals.map(interval => {
+      return values.filter(v => v > interval.from && v <= interval.to).length
+    }))
+    return intervals.map(interval => {
+      return values.filter(v => v > interval.from && v <= interval.to).length
+    })
   }
 
   const discretizeInterval = 60 * 60 * 1000
@@ -51,9 +54,9 @@ function configureChart(data, showUniqueChartColors) {
 
   let labels = [new Date(nowTime)]
   for (let i = 0; i < 23; i++) {
-    const nextLabelHour = labels[0].getHours() - 1
-    labels.unshift(new Date())
-    labels[0].setHours(nextLabelHour)
+    const nextLabelTime = labels[0].getTime() - discretizeInterval
+    labels.unshift(new Date(nextLabelTime))
+    //labels[0].setHours(nextLabelHour)
   }
 
   const intervals = [{
@@ -67,7 +70,7 @@ function configureChart(data, showUniqueChartColors) {
     })
   }
 
-  const labelsStrings = labels.map(l => `${l.getHours()}:${l.getMinutes()}`)
+  const labelsStrings = labels.map(l => `${l.getHours()}:${l.getMinutes()<10 ? '0' + l.getMinutes() : l.getMinutes()}`)
 
   let defaultColorToUseInd = 0
   //const usedCustomColors = new Set()
@@ -97,6 +100,7 @@ function configureChart(data, showUniqueChartColors) {
         data: discretize(linkData.clicks, intervals),
         fill: false,
         borderColor: color,
+        tension: 0.4,
       }
     }),
   };
