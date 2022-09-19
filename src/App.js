@@ -45,11 +45,6 @@ function App() {
     )
   }
 
-  if (isLoading) {
-    return (
-      <div style={{color: 'white'}}>Loading data...</div>
-    )
-  }
 
   const onLinkClick = link => {
     if (selectedLinks.map(l => l._id).includes(link._id)) {
