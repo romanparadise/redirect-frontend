@@ -31,13 +31,9 @@
 }
 
 .link > .link-clicks {
-    width: 10px;
+    min-width: 30px;
     color: #FFF;
-}
-
-.link > .link-description {
-    width: 100px;
-    display: none;
+    text-align: right;
 }
 
 .link-url {

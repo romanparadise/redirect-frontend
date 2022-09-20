@@ -34,6 +34,14 @@
     margin-left: 15px;
 }
 
+.link-item .item-pointer {
+    cursor: pointer;
+}
+
+.link-item .link-item-name {
+    cursor: pointer;
+}
+
 .link-item .remove-icon {
     position: absolute;
     left: 100%;

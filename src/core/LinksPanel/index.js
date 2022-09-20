@@ -7,7 +7,6 @@ export default function LinksPanel({ linksData=[], selectedLinks, statsDatePerio
             name={link.name}
             redirectsTo={link.redirectsTo}
             clicks={link.clicks}
-            description={link.description}
             tags={link.tags}
             selected={selectedLinks.map(l=>l._id).includes(link._id)}
             statsDatePeriod={statsDatePeriod}

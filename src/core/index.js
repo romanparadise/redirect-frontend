@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import LinksPanel from './LinksPanel'
 import NewLinkInput from './NewLinkInput'
 import Stats from './Stats'
+import { Toaster } from 'react-hot-toast'
 import './styles.css'
 
 
@@ -27,6 +28,10 @@ export default function Core({ linksData, selectedLinks, onLinkClick, removeLink
                 />
                 <NewLinkInput />
             </div>
+            <Toaster
+                position="top-center"
+                reverseOrder={false}
+            />
         </div>
     )
 }
