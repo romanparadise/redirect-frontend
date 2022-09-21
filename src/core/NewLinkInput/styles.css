@@ -1,5 +1,6 @@
 .new-link-form {
     display: flex;
+    margin-top: 5px;;
 }
 
 .new-link-form> * {

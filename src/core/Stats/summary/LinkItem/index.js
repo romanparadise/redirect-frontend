@@ -10,8 +10,7 @@ async function copyTextToClipboard(text) {
     }
   }
 
-export default function({ link, onRemove, statsDatePeriod }) {
-    const clicksInPeriod = statsDatePeriod && link.clicks.filter(click => (!statsDatePeriod[0] || click >= statsDatePeriod[0]) && (!statsDatePeriod[1] || click <= statsDatePeriod[1]))
+export default function({ link, onRemove, clicksCount }) {
     const redirectDomain = process.env.REACT_APP_REDIRECT_LINK_DOMAIN
 
     const onLinkNameClick = () => {
@@ -35,7 +34,7 @@ export default function({ link, onRemove, statsDatePeriod }) {
             <span>🌐</span>
             <a style={{width: '100px', maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis'}} href={link.redirectsTo.startsWith('http') ? link.redirectsTo : ('http://' + link.redirectsTo)}>{link.redirectsTo}</a>
             <span className='counter-emoji'>☝</span>
-            <div className='clicks-count'>{clicksInPeriod?.length}</div>
+            <div className='clicks-count'>{clicksCount}</div>
             <span></span>
             { link.description && <div className='link-item-description'>({link.description})</div> }
             <span></span>

@@ -45,7 +45,8 @@ export default function() {
     }
 
     return (
-        <div style={{width: 'fit-content', margin: 'auto'}}>
+        <div style={{width: 'fit-content', margin: '20px auto'}}>
+            <div style={{ color: '#FFF', fontFamily: 'sans-serif'}}>Добавить ссылку:</div>
             <div className='new-link-form'>
                 <Input
                 ref={nameRef}
