@@ -28,6 +28,7 @@ export default function({ onStatsDatePeriodChange }) {
                         setFrom(newValue);
                     }}
                     renderInput={(params) => <TextField {...params} />}
+                    ampm={false}
                 />
                 <DateTimePicker
                     label="To"
@@ -38,6 +39,7 @@ export default function({ onStatsDatePeriodChange }) {
                     renderInput={(params) => {
                         return params.inputProps.value ? <TextField {...params} /> : <TextField {...Object.assign(params, { inputProps: Object.assign(params.inputProps, { value: 'и до текущего момента' }) })} />
                     }}
+                    ampm={false}
                 />
             </LocalizationProvider>
         </div>
