@@ -9,6 +9,7 @@ export default function({ data, removeLink, statsDatePeriod, onStatsDatePeriodCh
         <div className="stats">
             <Chart 
                 data={data}
+                chosenPeriod={statsDatePeriod}
             />
             <PeriodFilter
                 onStatsDatePeriodChange={ onStatsDatePeriodChange }

@@ -15,7 +15,6 @@ export default function({ onStatsDatePeriodChange }) {
 
     useEffect(() => {
         onStatsDatePeriodChange(new Date(from).getTime(), new Date(to).getTime())
-        console.log(from, to)
     }, [from, to, onStatsDatePeriodChange])
 
     return (

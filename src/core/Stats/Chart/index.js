@@ -4,17 +4,17 @@ import { Chart, registerables } from "chart.js";
 import Switch from '@mui/material/Switch';
 import './styles.css'
 
-function configureChart(data, showUniqueChartColors) {
+function configureChart(data, chosenPeriod, showUniqueChartColors) {
   const colors = [
-    'rgb(75,192,192)', 
-    'rgb(116, 39, 116)', 
-    'rgb(205, 97, 85)', 
-    '#F1948A', 
-    '#C39BD3', 
-    '#A569BD', 
-    '#5499C7', 
-    '#85C1E9', 
-    '#76D7C4', 
+    'rgb(75,192,192)',
+    'rgb(116, 39, 116)',
+    'rgb(205, 97, 85)',
+    '#F1948A',
+    '#C39BD3',
+    '#A569BD',
+    '#5499C7',
+    '#85C1E9',
+    '#76D7C4',
     '#7DCEA0',
     '#82E0AA',
     '#F4D03F',
@@ -43,11 +43,15 @@ function configureChart(data, showUniqueChartColors) {
     })
   }
 
-  const discretizeInterval = 60 * 60 * 1000
-  const period = 24 * 60 * 60 * 1000
   const nowTime = Date.now()
-  const startPeriod = nowTime - period
-  const endPeriod = nowTime
+  const startPeriod = chosenPeriod?.[0]
+  const endPeriod = chosenPeriod?.[1] || nowTime
+
+  console.log(startPeriod, endPeriod)
+  console.log(new Date(startPeriod), new Date(endPeriod))
+
+  const discretizeInterval = parseInt((endPeriod - startPeriod) / 24)
+  //const period = 24 * 60 * 60 * 1000
 
   let labels = [new Date(nowTime)]
   for (let i = 0; i < 23; i++) {
@@ -103,11 +107,11 @@ function configureChart(data, showUniqueChartColors) {
   };
 }
 
-export default function({ data }) {
+export default function({ data, chosenPeriod }) {
   const [ showUniqueChartColors, setShowUniqueChartColors] = useState(false)
-  const memoizationDeps = [data.map(i => i.clicks).join(' '), showUniqueChartColors, new Date().getMinutes()]
+  const memoizationDeps = [data.map(i => i.clicks).join(' '), showUniqueChartColors, new Date().getMinutes(), chosenPeriod]
   const chartData = useMemo(() => {
-    return configureChart(data, showUniqueChartColors)
+    return configureChart(data, chosenPeriod, showUniqueChartColors)
   }, [...memoizationDeps])
 
   Chart.register(...registerables);
