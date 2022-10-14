@@ -4,6 +4,7 @@ import { Chart, registerables } from "chart.js";
 import Switch from '@mui/material/Switch';
 import './styles.css'
 
+
 function configureChart(data, chosenPeriod, showUniqueChartColors) {
   const colors = [
     'rgb(75,192,192)',
